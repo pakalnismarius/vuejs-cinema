@@ -8,12 +8,22 @@
         <h2>{{ movie.Title }}</h2>
         <span class="movie-rating">{{ movie.Rated }}</span>
       </div>
+      <div class="movie-sessions">
+        <div v-for="session in sessions" class="session-time-wrapper">
+          <div class="session-time">{{ formatSessionTime(session.time) }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script type="text/javascript">
   export default {
-    props: ['movie']
+    props: ['movie', 'sessions'],
+    methods: {
+      formatSessionTime(time) {
+        return this.$moment(time).format('h:mm A');
+      }
+    }
   }
 </script>
