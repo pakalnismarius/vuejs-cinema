@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import './style.scss';
-import Overview from './components/Overview.vue';
 
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
@@ -13,6 +12,12 @@ import { checkFilter } from './util/bus';
 const bus = new Vue();
 Object.defineProperty(Vue.prototype, '$bus', { get() { return this.$root.bus } });
 
+import vueRouter from 'vue-router';
+Vue.use(vueRouter);
+
+import routes from './util/routes';
+const router = new vueRouter({ routes });
+
 new Vue({
   el: '#app',
   data: {
@@ -23,13 +28,11 @@ new Vue({
     day: moment(),
     bus
   },
-  components: {
-    Overview
-  },
   created() {
     this.$http.get("/api").then(response => {
       this.movies = response.data;
     });
     this.$bus.$on('check-filter', checkFilter.bind(this));
-  }
+  },
+  router
 });
